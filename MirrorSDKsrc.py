@@ -3,25 +3,32 @@
 # Decompiled from: Python 3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]
 # Embedded file name: E:/Documents/maya/2018/scripts\MirrorSDK.py
 # Compiled at: 2018-06-18 08:42:33
+
+# Длязапускаиспользовать
+# import MirrorSDKExtended
+# MirrorSDK.MirrorSDKUIExtended()
+
+
 import pymel.core as pm
 import maya.cmds as mc
 import sys
 
 
-def MirrorSDKUI():
-    OOO0O0O000O0OO0O0 = 'MirrorSDK'
-    if pm.window(OOO0O0O000O0OO0O0, q=True, ex=True):
-        pm.deleteUI(OOO0O0O000O0OO0O0)
-    pm.window(OOO0O0O000O0OO0O0)
+def MirrorSDKUIExtended():
+    TitleWindow = 'MirrorSDK (Extended by Aleksei S.)'
+    if pm.window(TitleWindow, q=True, ex=True):
+        pm.deleteUI(TitleWindow)
+    pm.window(TitleWindow)
     pm.showWindow()
     pm.columnLayout(adj=True)
     pm.separator(st=None, h=10)
-    pm.text(l=OOO0O0O000O0OO0O0, bgc=(0.1, 0.5, 0.5))
-    pm.textFieldGrp('search', l='Search:', tx='L_')
+    pm.text(l=TitleWindow, bgc=(0.1, 0.5, 0.5))
+    pm.textFieldGrp('search', l='Search:', tx='_L')
     pm.radioButtonGrp('selt', nrb=2, l='Type:', la2=(
-        'Translate', 'BlendShape'), sl=1, en2=False, cc='changeUI')
+        'Translate', 'BlendShape (not work)'), sl=1, en2=False, cc='changeUI')
     pm.checkBoxGrp('checkbox2', ncb=3, l='TranslateAix:', la3=('X', 'Y', 'Z'))
     pm.checkBoxGrp('checkbox3', ncb=3, l='RotateAix:', la3=('X', 'Y', 'Z'))
+    pm.checkBoxGrp('checkbox4', ncb=3, l='ScaleAix:', la3=('X', 'Y', 'Z'))
     pm.textFieldButtonGrp('getCtrl1', l='FirstCtrl:',
                           tx='', bl='Get', bc=getCtrl1c)
     pm.textFieldButtonGrp('getCtrl2', l='SecondCtrl:', bl='Get', bc=getCtrl2c)
@@ -42,47 +49,51 @@ def MirrorSDKUI():
 
 
 def getCtrl1c():
-    OO0OO00O0O0OO0000 = pm.ls(sl=True)
-    if len(OO0OO00O0O0OO0000) > 1:
+    getCtrl1c_list = pm.ls(sl=True)
+    if len(getCtrl1c_list) > 1:
         pm.error('Only one object can be selected')
-    pm.textFieldButtonGrp('getCtrl1', e=True, tx=OO0OO00O0O0OO0000[0])
+    pm.textFieldButtonGrp('getCtrl1', e=True, tx=getCtrl1c_list[0])
 
 
 def getCtrl2c():
-    O00O00O00O0O00O00 = pm.ls(sl=True)
-    if len(O00O00O00O0O00O00) > 1:
+    getCtrl2c_list = pm.ls(sl=True)
+    if len(getCtrl2c_list) > 1:
         pm.error('Only one object can be selected')
-    pm.textFieldButtonGrp('getCtrl2', e=True, tx=O00O00O00O0O00O00[0])
+    pm.textFieldButtonGrp('getCtrl2', e=True, tx=getCtrl2c_list[0])
 
 
 def getAttribute1c():
-    O0O0OOOO000O000OO = pm.channelBox('mainChannelBox', q=True, sma=True)
-    if len(O0O0OOOO000O000OO) > 1:
+    mainChannelBox = pm.channelBox('mainChannelBox', q=True, sma=True)
+    if len(mainChannelBox) > 1:
         pm.error('Only one attribute can be selected')
-    pm.textFieldButtonGrp('getAttribute1', e=True, tx=O0O0OOOO000O000OO[0])
+    pm.textFieldButtonGrp('getAttribute1', e=True, tx=mainChannelBox[0])
 
 
 def getCtrlgrp1c():
+    # Вот ради списка выделенных элементов тут подгружена библиотека майки? Ужас.
     pm.textFieldButtonGrp('getCtrlgrp1', e=True, tx=(',').join(mc.ls(sl=True)))
 
 
 def SDK1(*O0OOOOO00O000O0O0):
-    O0O0O0OO00OO0OOOO = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    O0000OOO00000O000 = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
-    OO0OO0000OOOOOOOO = pm.textFieldButtonGrp('getCtrlgrp1', q=True, tx=True)
-    OOOO000OOO00O0000 = OO0OO0000OOOOOOOO.split(',')
+    txtField_getCtrl1_list = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
+    txtField_getCtrl2_list = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
+    txtField_getCtrlGrp1_list = pm.textFieldButtonGrp(
+        'getCtrlgrp1', q=True, tx=True)
+    OOOO000OOO00O0000 = txtField_getCtrlGrp1_list.split(',')
     OO0000OO0OO00OOOO = pm.textFieldButtonGrp('getAttribute1', q=True, tx=True)
     OOOOOOOOO0O0O00O0 = pm.floatFieldGrp('getfloat', q=True, v1=True)
     O000OOO00OOOOO000 = pm.floatFieldGrp('getfloat', q=True, v2=True)
     O000O00O0000OO000 = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    OO00O00OO0O0O00O0 = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz']
-    pm.setAttr(O0O0O0OO00OO0OOOO + '.' + OO0000OO0OO00OOOO, OOOOOOOOO0O0O00O0)
+    OO00O00OO0O0O00O0 = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
+    pm.setAttr(txtField_getCtrl1_list + '.' +
+               OO0000OO0OO00OOOO, OOOOOOOOO0O0O00O0)
     for OO0000000O0O00O00 in OOOO000OOO00O0000:
         for OO0000OOOOO000000 in OO00O00OO0O0O00O0:
             pm.setDrivenKeyframe(OO0000000O0O00O00 + '.' + OO0000OOOOO000000,
-                                 cd=O0000OOO00000O000 + '.' + OO0000OO0OO00OOOO)
+                                 cd=txtField_getCtrl2_list + '.' + OO0000OO0OO00OOOO)
 
-    pm.setAttr(O0O0O0OO00OO0OOOO + '.' + OO0000OO0OO00OOOO, O000OOO00OOOOO000)
+    pm.setAttr(txtField_getCtrl1_list + '.' +
+               OO0000OO0OO00OOOO, O000OOO00OOOOO000)
 
 
 def SDK2(*OO000OOO000OO0000):
@@ -94,7 +105,7 @@ def SDK2(*OO000OOO000OO0000):
     O00000O00OOOOO000 = pm.floatFieldGrp('getfloat', q=True, v1=True)
     OOO000O000O0000OO = pm.floatFieldGrp('getfloat', q=True, v2=True)
     OO0OO0O00O0OO00O0 = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    O000OO000000O0000 = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz']
+    O000OO000000O0000 = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
     O0O0OOOOO0O0O0OOO = pm.textFieldGrp('search', q=True, tx=True)
     O0OO000O0OOOOOO0O = O0O0OOOOO0O0O0OOO.replace('L', 'R') if ('_L_').find(
         O0O0OOOOO0O0O0OOO) >= 0 else O0O0OOOOO0O0O0OOO.replace('R', 'L')
