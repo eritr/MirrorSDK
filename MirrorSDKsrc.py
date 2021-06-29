@@ -79,21 +79,23 @@ def SDK1(*O0OOOOO00O000O0O0):
     txtField_getCtrl2_list = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
     txtField_getCtrlGrp1_list = pm.textFieldButtonGrp(
         'getCtrlgrp1', q=True, tx=True)
-    OOOO000OOO00O0000 = txtField_getCtrlGrp1_list.split(',')
-    OO0000OO0OO00OOOO = pm.textFieldButtonGrp('getAttribute1', q=True, tx=True)
-    OOOOOOOOO0O0O00O0 = pm.floatFieldGrp('getfloat', q=True, v1=True)
-    O000OOO00OOOOO000 = pm.floatFieldGrp('getfloat', q=True, v2=True)
-    O000O00O0000OO000 = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    OO00O00OO0O0O00O0 = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
+    exDrivenElems = txtField_getCtrlGrp1_list.split(',')
+    exControlAttribute = pm.textFieldButtonGrp(
+        'getAttribute1', q=True, tx=True)
+    exMinValue = pm.floatFieldGrp('getfloat', q=True, v1=True)
+    exMaxValue = pm.floatFieldGrp('getfloat', q=True, v2=True)
+    exFirstCtrl = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
+    exListCtrlAttributes = ['tx', 'ty', 'tz',
+                            'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
     pm.setAttr(txtField_getCtrl1_list + '.' +
-               OO0000OO0OO00OOOO, OOOOOOOOO0O0O00O0)
-    for OO0000000O0O00O00 in OOOO000OOO00O0000:
-        for OO0000OOOOO000000 in OO00O00OO0O0O00O0:
-            pm.setDrivenKeyframe(OO0000000O0O00O00 + '.' + OO0000OOOOO000000,
-                                 cd=txtField_getCtrl2_list + '.' + OO0000OO0OO00OOOO)
+               exControlAttribute, exMinValue)
+    for exDrivenElem in exDrivenElems:
+        for exCtrlAttrElem in exListCtrlAttributes:
+            pm.setDrivenKeyframe(exDrivenElem + '.' + exCtrlAttrElem,
+                                 cd=txtField_getCtrl2_list + '.' + exControlAttribute)
 
     pm.setAttr(txtField_getCtrl1_list + '.' +
-               OO0000OO0OO00OOOO, O000OOO00OOOOO000)
+               exControlAttribute, exMaxValue)
 
 
 def SDK2(*OO000OOO000OO0000):
