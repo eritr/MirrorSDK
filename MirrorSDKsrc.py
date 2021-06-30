@@ -134,39 +134,45 @@ def SDK2(*OO000OOO000OO0000):
             1 if pm.checkBoxGrp('checkbox3', q=True, v2=True) else 1
         exrz = - \
             1 if pm.checkBoxGrp('checkbox3', q=True, v3=True) else 1
+        exsx = - \
+            1 if pm.checkBoxGrp('checkbox4', q=True, v3=True) else 1
+        exsy = - \
+            1 if pm.checkBoxGrp('checkbox4', q=True, v3=True) else 1
+        exsz = - \
+            1 if pm.checkBoxGrp('checkbox4', q=True, v3=True) else 1
         pm.setAttr(exNewNameCtrl1 + '.' +
                    exControlAttributeReplaced, exMinValue)
-        for O000O0O0O00O0O0OO in txtField_getCtrlGrp1_list:
-            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
-                exSearch) >= 0 else O000O0O0O00O0O0OO.replace(exRenamer, exSearch)
+        for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
+            O00OO0000OO00OOO0 = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+                exSearch) >= 0 else exCtrlElemFromGrp1.replace(exRenamer, exSearch)
             for O00O0O000OO000O00 in exListAllAttributes:
                 pm.setDrivenKeyframe(O00OO0000OO00OOO0 + '.' + O00O0O000OO000O00,
                                      cd=exNewNameCtrl2 + '.' + exControlAttributeReplaced)
 
         pm.setAttr(exNewNameCtrl1 + '.' +
                    exControlAttributeReplaced, exMaxValue)
-        for O000O0O0O00O0O0OO in txtField_getCtrlGrp1_list:
-            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
-                exSearch) >= 0 else O000O0O0O00O0O0OO.replace(exRenamer, exSearch)
-            OOO0OOO0OO0O00000 = pm.getAttr(O000O0O0O00O0O0OO + '.translate')
-            OOO0OOO0OOOO0OOO0 = pm.getAttr(O000O0O0O00O0O0OO + '.rotate')
+        for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
+            O00OO0000OO00OOO0 = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+                exSearch) >= 0 else exCtrlElemFromGrp1.replace(exRenamer, exSearch)
+            OOO0OOO0OO0O00000 = pm.getAttr(exCtrlElemFromGrp1 + '.translate')
+            OOO0OOO0OOOO0OOO0 = pm.getAttr(exCtrlElemFromGrp1 + '.rotate')
             pm.setAttr(O00OO0000OO00OOO0 + '.translate', (extx *
                        OOO0OOO0OO0O00000[0], exty * OOO0OOO0OO0O00000[1], extz * OOO0OOO0OO0O00000[2]))
             pm.setAttr(O00OO0000OO00OOO0 + '.rotate', (exrx *
                        OOO0OOO0OOOO0OOO0[0], exry * OOO0OOO0OOOO0OOO0[1], exrz * OOO0OOO0OOOO0OOO0[2]))
 
-        for O000O0O0O00O0O0OO in txtField_getCtrlGrp1_list:
-            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
-                exSearch) >= 0 else O000O0O0O00O0O0OO.replace(exRenamer, exSearch)
+        for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
+            O00OO0000OO00OOO0 = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+                exSearch) >= 0 else exCtrlElemFromGrp1.replace(exRenamer, exSearch)
             for O00O0O000OO000O00 in exListAllAttributes:
                 pm.setDrivenKeyframe(O00OO0000OO00OOO0 + '.' + O00O0O000OO000O00,
                                      cd=exNewNameCtrl2 + '.' + exControlAttributeReplaced)
 
         print 'Mirror SDK completion!!!',
     else:
-        for O000O0O0O00O0O0OO in txtField_getCtrlGrp1_list:
+        for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
             for O00O0O000OO000O00 in exListAllAttributes:
-                pm.setDrivenKeyframe(O000O0O0O00O0O0OO + '.' + O00O0O000OO000O00,
+                pm.setDrivenKeyframe(exCtrlElemFromGrp1 + '.' + O00O0O000OO000O00,
                                      cd=txtField_getCtrl2_list + '.' + exControlAttribute)
 
         print 'Non mirror drive completion!!!',
