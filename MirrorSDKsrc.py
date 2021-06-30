@@ -79,19 +79,21 @@ def SDK1(*O0OOOOO00O000O0O0):
     txtField_getCtrl2_list = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
     txtField_getCtrlGrp1_list = pm.textFieldButtonGrp(
         'getCtrlgrp1', q=True, tx=True)
-    exDrivenElems = txtField_getCtrlGrp1_list.split(',')
+    exListDrivenElems = txtField_getCtrlGrp1_list.split(',')
     exControlAttribute = pm.textFieldButtonGrp(
         'getAttribute1', q=True, tx=True)
     exMinValue = pm.floatFieldGrp('getfloat', q=True, v1=True)
     exMaxValue = pm.floatFieldGrp('getfloat', q=True, v2=True)
     exFirstCtrl = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    exListCtrlAttributes = ['tx', 'ty', 'tz',
-                            'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
+    exListAllAttributes = ['tx', 'ty', 'tz',
+                           'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
+
     pm.setAttr(txtField_getCtrl1_list + '.' +
                exControlAttribute, exMinValue)
-    for exDrivenElem in exDrivenElems:
-        for exCtrlAttrElem in exListCtrlAttributes:
-            pm.setDrivenKeyframe(exDrivenElem + '.' + exCtrlAttrElem,
+
+    for exDrivenElem in exListDrivenElems:
+        for exAttrElemFromListAllAttributes in exListAllAttributes:
+            pm.setDrivenKeyframe(exDrivenElem + '.' + exAttrElemFromListAllAttributes,
                                  cd=txtField_getCtrl2_list + '.' + exControlAttribute)
 
     pm.setAttr(txtField_getCtrl1_list + '.' +
@@ -99,70 +101,72 @@ def SDK1(*O0OOOOO00O000O0O0):
 
 
 def SDK2(*OO000OOO000OO0000):
-    O000O000O0O0OOOO0 = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    OOO000O00OOOOO00O = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
-    O000O0OOO0O0OO00O = pm.textFieldButtonGrp('getCtrlgrp1', q=True, tx=True)
-    OOOO0OO000OOOO0O0 = O000O0OOO0O0OO00O.split(',')
-    OOO000O0O000000OO = pm.textFieldButtonGrp('getAttribute1', q=True, tx=True)
-    O00000O00OOOOO000 = pm.floatFieldGrp('getfloat', q=True, v1=True)
-    OOO000O000O0000OO = pm.floatFieldGrp('getfloat', q=True, v2=True)
-    OO0OO0O00O0OO00O0 = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    O000OO000000O0000 = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
-    O0O0OOOOO0O0O0OOO = pm.textFieldGrp('search', q=True, tx=True)
-    O0OO000O0OOOOOO0O = O0O0OOOOO0O0O0OOO.replace('L', 'R') if ('_L_').find(
-        O0O0OOOOO0O0O0OOO) >= 0 else O0O0OOOOO0O0O0OOO.replace('R', 'L')
-    OOO00O0OOO0O000OO = O000O000O0O0OOOO0.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-        O0O0OOOOO0O0O0OOO) >= 0 else O000O000O0O0OOOO0.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-    O0OO00OOO0OOO0000 = OOO000O00OOOOO00O.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-        O0O0OOOOO0O0O0OOO) >= 0 else OOO000O00OOOOO00O.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-    O0O0O00OOOOOO00O0 = OOO000O0O000000OO.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-        O0O0OOOOO0O0O0OOO) >= 0 else OOO000O0O000000OO.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-    if pm.objExists(OOO00O0OOO0O000OO):
-        O00O0O0OOO0000OO0 = - \
+    txtField_getCtrl1_list = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
+    txtField_getCtrl2_list = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
+    txtField_getCtrlGrp1_list = pm.textFieldButtonGrp(
+        'getCtrlgrp1', q=True, tx=True)
+    txtField_getCtrlGrp1_list = txtField_getCtrlGrp1_list.split(',')
+    exControlAttribute = pm.textFieldButtonGrp(
+        'getAttribute1', q=True, tx=True)
+    exMinValue = pm.floatFieldGrp('getfloat', q=True, v1=True)
+    exMaxValue = pm.floatFieldGrp('getfloat', q=True, v2=True)
+    exListAllAttributes = ['tx', 'ty', 'tz',
+                           'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
+    exSearch = pm.textFieldGrp('search', q=True, tx=True)
+    exRenamer = exSearch.replace('L', 'R') if ('_L_').find(
+        exSearch) >= 0 else exSearch.replace('R', 'L')
+    exNewNameCtrl1 = txtField_getCtrl1_list.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+        exSearch) >= 0 else txtField_getCtrl1_list.replace(exRenamer, exSearch)
+    exNewNameCtrl2 = txtField_getCtrl2_list.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+        exSearch) >= 0 else txtField_getCtrl2_list.replace(exRenamer, exSearch)
+    exControlAttributeReplaced = exControlAttribute.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+        exSearch) >= 0 else exControlAttribute.replace(exRenamer, exSearch)
+    if pm.objExists(exNewNameCtrl1):
+        extx = - \
             1 if pm.checkBoxGrp('checkbox2', q=True, v1=True) else 1
-        O00O0OOOOOOO0OOO0 = - \
+        exty = - \
             1 if pm.checkBoxGrp('checkbox2', q=True, v2=True) else 1
-        O0O0000O00OO0OOO0 = - \
+        extz = - \
             1 if pm.checkBoxGrp('checkbox2', q=True, v3=True) else 1
-        OO000O0O0O00OOOOO = - \
+        exrx = - \
             1 if pm.checkBoxGrp('checkbox3', q=True, v1=True) else 1
-        O000OO0OOOO0OO0O0 = - \
+        exry = - \
             1 if pm.checkBoxGrp('checkbox3', q=True, v2=True) else 1
-        O000OO0000OOOOOOO = - \
+        exrz = - \
             1 if pm.checkBoxGrp('checkbox3', q=True, v3=True) else 1
-        pm.setAttr(OOO00O0OOO0O000OO + '.' +
-                   O0O0O00OOOOOO00O0, O00000O00OOOOO000)
-        for O000O0O0O00O0O0OO in OOOO0OO000OOOO0O0:
-            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-                O0O0OOOOO0O0O0OOO) >= 0 else O000O0O0O00O0O0OO.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-            for O00O0O000OO000O00 in O000OO000000O0000:
+        pm.setAttr(exNewNameCtrl1 + '.' +
+                   exControlAttributeReplaced, exMinValue)
+        for O000O0O0O00O0O0OO in txtField_getCtrlGrp1_list:
+            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+                exSearch) >= 0 else O000O0O0O00O0O0OO.replace(exRenamer, exSearch)
+            for O00O0O000OO000O00 in exListAllAttributes:
                 pm.setDrivenKeyframe(O00OO0000OO00OOO0 + '.' + O00O0O000OO000O00,
-                                     cd=O0OO00OOO0OOO0000 + '.' + O0O0O00OOOOOO00O0)
+                                     cd=exNewNameCtrl2 + '.' + exControlAttributeReplaced)
 
-        pm.setAttr(OOO00O0OOO0O000OO + '.' +
-                   O0O0O00OOOOOO00O0, OOO000O000O0000OO)
-        for O000O0O0O00O0O0OO in OOOO0OO000OOOO0O0:
-            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-                O0O0OOOOO0O0O0OOO) >= 0 else O000O0O0O00O0O0OO.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
+        pm.setAttr(exNewNameCtrl1 + '.' +
+                   exControlAttributeReplaced, exMaxValue)
+        for O000O0O0O00O0O0OO in txtField_getCtrlGrp1_list:
+            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+                exSearch) >= 0 else O000O0O0O00O0O0OO.replace(exRenamer, exSearch)
             OOO0OOO0OO0O00000 = pm.getAttr(O000O0O0O00O0O0OO + '.translate')
             OOO0OOO0OOOO0OOO0 = pm.getAttr(O000O0O0O00O0O0OO + '.rotate')
-            pm.setAttr(O00OO0000OO00OOO0 + '.translate', (O00O0O0OOO0000OO0 *
-                       OOO0OOO0OO0O00000[0], O00O0OOOOOOO0OOO0 * OOO0OOO0OO0O00000[1], O0O0000O00OO0OOO0 * OOO0OOO0OO0O00000[2]))
-            pm.setAttr(O00OO0000OO00OOO0 + '.rotate', (OO000O0O0O00OOOOO *
-                       OOO0OOO0OOOO0OOO0[0], O000OO0OOOO0OO0O0 * OOO0OOO0OOOO0OOO0[1], O000OO0000OOOOOOO * OOO0OOO0OOOO0OOO0[2]))
+            pm.setAttr(O00OO0000OO00OOO0 + '.translate', (extx *
+                       OOO0OOO0OO0O00000[0], exty * OOO0OOO0OO0O00000[1], extz * OOO0OOO0OO0O00000[2]))
+            pm.setAttr(O00OO0000OO00OOO0 + '.rotate', (exrx *
+                       OOO0OOO0OOOO0OOO0[0], exry * OOO0OOO0OOOO0OOO0[1], exrz * OOO0OOO0OOOO0OOO0[2]))
 
-        for O000O0O0O00O0O0OO in OOOO0OO000OOOO0O0:
-            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-                O0O0OOOOO0O0O0OOO) >= 0 else O000O0O0O00O0O0OO.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-            for O00O0O000OO000O00 in O000OO000000O0000:
+        for O000O0O0O00O0O0OO in txtField_getCtrlGrp1_list:
+            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+                exSearch) >= 0 else O000O0O0O00O0O0OO.replace(exRenamer, exSearch)
+            for O00O0O000OO000O00 in exListAllAttributes:
                 pm.setDrivenKeyframe(O00OO0000OO00OOO0 + '.' + O00O0O000OO000O00,
-                                     cd=O0OO00OOO0OOO0000 + '.' + O0O0O00OOOOOO00O0)
+                                     cd=exNewNameCtrl2 + '.' + exControlAttributeReplaced)
 
         print 'Mirror SDK completion!!!',
     else:
-        for O000O0O0O00O0O0OO in OOOO0OO000OOOO0O0:
-            for O00O0O000OO000O00 in O000OO000000O0000:
+        for O000O0O0O00O0O0OO in txtField_getCtrlGrp1_list:
+            for O00O0O000OO000O00 in exListAllAttributes:
                 pm.setDrivenKeyframe(O000O0O0O00O0O0OO + '.' + O00O0O000OO000O00,
-                                     cd=OOO000O00OOOOO00O + '.' + OOO000O0O000000OO)
+                                     cd=txtField_getCtrl2_list + '.' + exControlAttribute)
 
         print 'Non mirror drive completion!!!',
