@@ -143,36 +143,37 @@ def SDK2(*OO000OOO000OO0000):
         pm.setAttr(exNewNameCtrl1 + '.' +
                    exControlAttributeReplaced, exMinValue)
         for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
-            O00OO0000OO00OOO0 = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+            exMirroredCtrl = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
                 exSearch) >= 0 else exCtrlElemFromGrp1.replace(exRenamer, exSearch)
-            for O00O0O000OO000O00 in exListAllAttributes:
-                pm.setDrivenKeyframe(O00OO0000OO00OOO0 + '.' + O00O0O000OO000O00,
+            for ExElemFromListAllAttributes in exListAllAttributes:
+                pm.setDrivenKeyframe(exMirroredCtrl + '.' + ExElemFromListAllAttributes,
                                      cd=exNewNameCtrl2 + '.' + exControlAttributeReplaced)
 
         pm.setAttr(exNewNameCtrl1 + '.' +
                    exControlAttributeReplaced, exMaxValue)
         for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
-            O00OO0000OO00OOO0 = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+            exMirroredCtrl = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
                 exSearch) >= 0 else exCtrlElemFromGrp1.replace(exRenamer, exSearch)
-            OOO0OOO0OO0O00000 = pm.getAttr(exCtrlElemFromGrp1 + '.translate')
-            OOO0OOO0OOOO0OOO0 = pm.getAttr(exCtrlElemFromGrp1 + '.rotate')
-            pm.setAttr(O00OO0000OO00OOO0 + '.translate', (extx *
-                       OOO0OOO0OO0O00000[0], exty * OOO0OOO0OO0O00000[1], extz * OOO0OOO0OO0O00000[2]))
-            pm.setAttr(O00OO0000OO00OOO0 + '.rotate', (exrx *
-                       OOO0OOO0OOOO0OOO0[0], exry * OOO0OOO0OOOO0OOO0[1], exrz * OOO0OOO0OOOO0OOO0[2]))
+            exMirroredCtrlTranslate = pm.getAttr(
+                exCtrlElemFromGrp1 + '.translate')
+            exMirroredCtrlRotate = pm.getAttr(exCtrlElemFromGrp1 + '.rotate')
+            pm.setAttr(exMirroredCtrl + '.translate', (extx *
+                       exMirroredCtrlTranslate[0], exty * exMirroredCtrlTranslate[1], extz * exMirroredCtrlTranslate[2]))
+            pm.setAttr(exMirroredCtrl + '.rotate', (exrx *
+                       exMirroredCtrlRotate[0], exry * exMirroredCtrlRotate[1], exrz * exMirroredCtrlRotate[2]))
 
         for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
-            O00OO0000OO00OOO0 = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
+            exMirroredCtrl = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
                 exSearch) >= 0 else exCtrlElemFromGrp1.replace(exRenamer, exSearch)
-            for O00O0O000OO000O00 in exListAllAttributes:
-                pm.setDrivenKeyframe(O00OO0000OO00OOO0 + '.' + O00O0O000OO000O00,
+            for ExElemFromListAllAttributes in exListAllAttributes:
+                pm.setDrivenKeyframe(exMirroredCtrl + '.' + ExElemFromListAllAttributes,
                                      cd=exNewNameCtrl2 + '.' + exControlAttributeReplaced)
 
         print 'Mirror SDK completion!!!',
     else:
         for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
-            for O00O0O000OO000O00 in exListAllAttributes:
-                pm.setDrivenKeyframe(exCtrlElemFromGrp1 + '.' + O00O0O000OO000O00,
+            for ExElemFromListAllAttributes in exListAllAttributes:
+                pm.setDrivenKeyframe(exCtrlElemFromGrp1 + '.' + ExElemFromListAllAttributes,
                                      cd=txtField_getCtrl2_list + '.' + exControlAttribute)
 
         print 'Non mirror drive completion!!!',
