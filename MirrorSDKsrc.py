@@ -75,53 +75,58 @@ def getCtrlgrp1c():
 
 
 def SDK1(*O0OOOOO00O000O0O0):
-    txtField_getCtrl1_list = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    txtField_getCtrl2_list = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
-    txtField_getCtrlGrp1_list = pm.textFieldButtonGrp(
+    first_controller = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
+    second_controller = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
+    text_field_of_list_driven_elems = pm.textFieldButtonGrp(
         'getCtrlgrp1', q=True, tx=True)
-    exListDrivenElems = txtField_getCtrlGrp1_list.split(',')
-    exControlAttribute = pm.textFieldButtonGrp(
+    list_driven_elems = text_field_of_list_driven_elems.split(',')
+    driver_attribute = pm.textFieldButtonGrp(
         'getAttribute1', q=True, tx=True)
-    exMinValue = pm.floatFieldGrp('getfloat', q=True, v1=True)
-    exMaxValue = pm.floatFieldGrp('getfloat', q=True, v2=True)
-    exFirstCtrl = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    exListAllAttributes = ['tx', 'ty', 'tz',
-                           'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
+    min_value = pm.floatFieldGrp('getfloat', q=True, v1=True)
+    max_value = pm.floatFieldGrp('getfloat', q=True, v2=True)
+    list_of_all_attributes = ['tx', 'ty', 'tz',
+                              'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
 
-    pm.setAttr(txtField_getCtrl1_list + '.' +
-               exControlAttribute, exMinValue)
+    pm.setAttr(first_controller + '.' +
+               driver_attribute, min_value)
 
-    for exDrivenElem in exListDrivenElems:
-        for exAttrElemFromListAllAttributes in exListAllAttributes:
-            pm.setDrivenKeyframe(exDrivenElem + '.' + exAttrElemFromListAllAttributes,
-                                 cd=txtField_getCtrl2_list + '.' + exControlAttribute)
+    for driven_elem in list_driven_elems:
+        for elem_from_list_of_all_attributes in list_of_all_attributes:
+            pm.setDrivenKeyframe(driven_elem + '.' + elem_from_list_of_all_attributes,
+                                 cd=second_controller + '.' + driver_attribute)
 
-    pm.setAttr(txtField_getCtrl1_list + '.' +
-               exControlAttribute, exMaxValue)
+    pm.setAttr(first_controller + '.' +
+               driver_attribute, max_value)
 
 
 def SDK2(*OO000OOO000OO0000):
-    txtField_getCtrl1_list = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    txtField_getCtrl2_list = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
-    txtField_getCtrlGrp1_list = pm.textFieldButtonGrp(
+    first_controller = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
+    second_controller = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
+    text_field_of_list_driven_elems = pm.textFieldButtonGrp(
         'getCtrlgrp1', q=True, tx=True)
-    txtField_getCtrlGrp1_list = txtField_getCtrlGrp1_list.split(',')
-    exControlAttribute = pm.textFieldButtonGrp(
+    text_field_of_list_driven_elems = text_field_of_list_driven_elems.split(
+        ',')
+    driver_attribute = pm.textFieldButtonGrp(
         'getAttribute1', q=True, tx=True)
-    exMinValue = pm.floatFieldGrp('getfloat', q=True, v1=True)
-    exMaxValue = pm.floatFieldGrp('getfloat', q=True, v2=True)
-    exListAllAttributes = ['tx', 'ty', 'tz',
-                           'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
-    exSearch = pm.textFieldGrp('search', q=True, tx=True)
-    exRenamer = exSearch.replace('L', 'R') if ('_L_').find(
-        exSearch) >= 0 else exSearch.replace('R', 'L')
-    exNewNameCtrl1 = txtField_getCtrl1_list.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
-        exSearch) >= 0 else txtField_getCtrl1_list.replace(exRenamer, exSearch)
-    exNewNameCtrl2 = txtField_getCtrl2_list.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
-        exSearch) >= 0 else txtField_getCtrl2_list.replace(exRenamer, exSearch)
-    exControlAttributeReplaced = exControlAttribute.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
-        exSearch) >= 0 else exControlAttribute.replace(exRenamer, exSearch)
-    if pm.objExists(exNewNameCtrl1):
+    min_value = pm.floatFieldGrp('getfloat', q=True, v1=True)
+    max_value = pm.floatFieldGrp('getfloat', q=True, v2=True)
+    list_of_all_attributes = ['tx', 'ty', 'tz',
+                              'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
+    text_from_search_field = pm.textFieldGrp('search', q=True, tx=True)
+
+    l2r_or_r2l_replacer = text_from_search_field.replace('L', 'R') if ('_L_').find(
+        text_from_search_field) >= 0 else text_from_search_field.replace('R', 'L')
+
+    mirored_first_controller = first_controller.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+        text_from_search_field) >= 0 else first_controller.replace(l2r_or_r2l_replacer, text_from_search_field)
+
+    mirrored_second_controller = second_controller.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+        text_from_search_field) >= 0 else second_controller.replace(l2r_or_r2l_replacer, text_from_search_field)
+
+    mirrored_driver_attribute = driver_attribute.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+        text_from_search_field) >= 0 else driver_attribute.replace(l2r_or_r2l_replacer, text_from_search_field)
+
+    if pm.objExists(mirored_first_controller):
         extx = - \
             1 if pm.checkBoxGrp('checkbox2', q=True, v1=True) else 1
         exty = - \
@@ -140,40 +145,44 @@ def SDK2(*OO000OOO000OO0000):
             1 if pm.checkBoxGrp('checkbox4', q=True, v3=True) else 1
         exsz = - \
             1 if pm.checkBoxGrp('checkbox4', q=True, v3=True) else 1
-        pm.setAttr(exNewNameCtrl1 + '.' +
-                   exControlAttributeReplaced, exMinValue)
-        for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
-            exMirroredCtrl = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
-                exSearch) >= 0 else exCtrlElemFromGrp1.replace(exRenamer, exSearch)
-            for ExElemFromListAllAttributes in exListAllAttributes:
-                pm.setDrivenKeyframe(exMirroredCtrl + '.' + ExElemFromListAllAttributes,
-                                     cd=exNewNameCtrl2 + '.' + exControlAttributeReplaced)
 
-        pm.setAttr(exNewNameCtrl1 + '.' +
-                   exControlAttributeReplaced, exMaxValue)
-        for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
-            exMirroredCtrl = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
-                exSearch) >= 0 else exCtrlElemFromGrp1.replace(exRenamer, exSearch)
-            exMirroredCtrlTranslate = pm.getAttr(
-                exCtrlElemFromGrp1 + '.translate')
-            exMirroredCtrlRotate = pm.getAttr(exCtrlElemFromGrp1 + '.rotate')
-            pm.setAttr(exMirroredCtrl + '.translate', (extx *
-                       exMirroredCtrlTranslate[0], exty * exMirroredCtrlTranslate[1], extz * exMirroredCtrlTranslate[2]))
-            pm.setAttr(exMirroredCtrl + '.rotate', (exrx *
-                       exMirroredCtrlRotate[0], exry * exMirroredCtrlRotate[1], exrz * exMirroredCtrlRotate[2]))
+        pm.setAttr(mirored_first_controller + '.' +
+                   mirrored_driver_attribute, min_value)
 
-        for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
-            exMirroredCtrl = exCtrlElemFromGrp1.replace(exSearch, exRenamer) if txtField_getCtrl1_list.find(
-                exSearch) >= 0 else exCtrlElemFromGrp1.replace(exRenamer, exSearch)
-            for ExElemFromListAllAttributes in exListAllAttributes:
-                pm.setDrivenKeyframe(exMirroredCtrl + '.' + ExElemFromListAllAttributes,
-                                     cd=exNewNameCtrl2 + '.' + exControlAttributeReplaced)
+        for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
+            mirrored_first_controller = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+                text_from_search_field) >= 0 else elem_from_text_field_of_list_driven_elems.replace(l2r_or_r2l_replacer, text_from_search_field)
+            for elem_from_list_of_all_attributes in list_of_all_attributes:
+                pm.setDrivenKeyframe(mirrored_first_controller + '.' + elem_from_list_of_all_attributes,
+                                     cd=mirrored_second_controller + '.' + mirrored_driver_attribute)
+
+        pm.setAttr(mirored_first_controller + '.' +
+                   mirrored_driver_attribute, max_value)
+
+        for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
+            mirrored_first_controller = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+                text_from_search_field) >= 0 else elem_from_text_field_of_list_driven_elems.replace(l2r_or_r2l_replacer, text_from_search_field)
+            mirrored_first_controllerTranslate = pm.getAttr(
+                elem_from_text_field_of_list_driven_elems + '.translate')
+            mirrored_first_controllerRotate = pm.getAttr(
+                elem_from_text_field_of_list_driven_elems + '.rotate')
+            pm.setAttr(mirrored_first_controller + '.translate', (extx *
+                       mirrored_first_controllerTranslate[0], exty * mirrored_first_controllerTranslate[1], extz * mirrored_first_controllerTranslate[2]))
+            pm.setAttr(mirrored_first_controller + '.rotate', (exrx *
+                       mirrored_first_controllerRotate[0], exry * mirrored_first_controllerRotate[1], exrz * mirrored_first_controllerRotate[2]))
+
+        for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
+            mirrored_first_controller = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+                text_from_search_field) >= 0 else elem_from_text_field_of_list_driven_elems.replace(l2r_or_r2l_replacer, text_from_search_field)
+            for elem_from_list_of_all_attributes in list_of_all_attributes:
+                pm.setDrivenKeyframe(mirrored_first_controller + '.' + elem_from_list_of_all_attributes,
+                                     cd=mirrored_second_controller + '.' + mirrored_driver_attribute)
 
         print 'Mirror SDK completion!!!',
     else:
-        for exCtrlElemFromGrp1 in txtField_getCtrlGrp1_list:
-            for ExElemFromListAllAttributes in exListAllAttributes:
-                pm.setDrivenKeyframe(exCtrlElemFromGrp1 + '.' + ExElemFromListAllAttributes,
-                                     cd=txtField_getCtrl2_list + '.' + exControlAttribute)
+        for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
+            for elem_from_list_of_all_attributes in list_of_all_attributes:
+                pm.setDrivenKeyframe(elem_from_text_field_of_list_driven_elems + '.' + elem_from_list_of_all_attributes,
+                                     cd=second_controller + '.' + driver_attribute)
 
         print 'Non mirror drive completion!!!',
