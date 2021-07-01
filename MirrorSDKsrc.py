@@ -26,6 +26,9 @@ def MirrorSDKUIExtended():
     pm.textFieldGrp('search', l='Search:', tx='_L')
     pm.radioButtonGrp('selt', nrb=2, l='Type:', la2=(
         'Translate', 'BlendShape (not work)'), sl=1, en2=False, cc='changeUI')
+    pm.separator(st=None, h=10)
+    pm.text(l='Mark to fix behavior', bgc=(0.1, 0.1, 0.1))
+    pm.separator(st=None, h=5)
     pm.checkBoxGrp('checkbox2', ncb=3, l='TranslateAix:', la3=('X', 'Y', 'Z'))
     pm.checkBoxGrp('checkbox3', ncb=3, l='RotateAix:', la3=('X', 'Y', 'Z'))
     pm.checkBoxGrp('checkbox4', ncb=3, l='ScaleAix:', la3=('X', 'Y', 'Z'))
@@ -150,39 +153,46 @@ def SDK2(*OO000OOO000OO0000):
                    mirrored_driver_attribute, min_value)
 
         for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
-            mirrored_first_controller = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+            mirrored_elem_from_text_field_of_list_driven_elems = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
                 text_from_search_field) >= 0 else elem_from_text_field_of_list_driven_elems.replace(l2r_or_r2l_replacer, text_from_search_field)
             for elem_from_list_of_all_attributes in list_of_all_attributes:
-                pm.setDrivenKeyframe(mirrored_first_controller + '.' + elem_from_list_of_all_attributes,
+                pm.setDrivenKeyframe(mirrored_elem_from_text_field_of_list_driven_elems + '.' + elem_from_list_of_all_attributes,
                                      cd=mirrored_second_controller + '.' + mirrored_driver_attribute)
 
         pm.setAttr(mirored_first_controller + '.' +
                    mirrored_driver_attribute, max_value)
 
         for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
-            mirrored_first_controller = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+            mirrored_elem_from_text_field_of_list_driven_elems = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
                 text_from_search_field) >= 0 else elem_from_text_field_of_list_driven_elems.replace(l2r_or_r2l_replacer, text_from_search_field)
-            mirrored_first_controllerTranslate = pm.getAttr(
+
+            mirrored_first_controller_translate = pm.getAttr(
                 elem_from_text_field_of_list_driven_elems + '.translate')
-            mirrored_first_controllerRotate = pm.getAttr(
+            mirrored_first_controller_rotate = pm.getAttr(
                 elem_from_text_field_of_list_driven_elems + '.rotate')
-            pm.setAttr(mirrored_first_controller + '.translate', (extx *
-                       mirrored_first_controllerTranslate[0], exty * mirrored_first_controllerTranslate[1], extz * mirrored_first_controllerTranslate[2]))
-            pm.setAttr(mirrored_first_controller + '.rotate', (exrx *
-                       mirrored_first_controllerRotate[0], exry * mirrored_first_controllerRotate[1], exrz * mirrored_first_controllerRotate[2]))
+            mirrored_first_controller_scale = pm.getAttr(
+                elem_from_text_field_of_list_driven_elems + '.scale')
+
+            pm.setAttr(mirrored_elem_from_text_field_of_list_driven_elems + '.translate', (extx *
+                       mirrored_first_controller_translate[0], exty * mirrored_first_controller_translate[1], extz * mirrored_first_controller_translate[2]))
+            pm.setAttr(mirrored_elem_from_text_field_of_list_driven_elems + '.rotate', (exrx *
+                       mirrored_first_controller_rotate[0], exry * mirrored_first_controller_rotate[1], exrz * mirrored_first_controller_rotate[2]))
+            pm.setAttr(mirrored_elem_from_text_field_of_list_driven_elems + '.scale', (exsx *
+                       mirrored_first_controller_scale[0], exsy * mirrored_first_controller_scale[1], exsz * mirrored_first_controller_scale[2]))
 
         for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
-            mirrored_first_controller = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+            mirrored_elem_from_text_field_of_list_driven_elems = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
                 text_from_search_field) >= 0 else elem_from_text_field_of_list_driven_elems.replace(l2r_or_r2l_replacer, text_from_search_field)
             for elem_from_list_of_all_attributes in list_of_all_attributes:
-                pm.setDrivenKeyframe(mirrored_first_controller + '.' + elem_from_list_of_all_attributes,
+                pm.setDrivenKeyframe(mirrored_elem_from_text_field_of_list_driven_elems + '.' + elem_from_list_of_all_attributes,
                                      cd=mirrored_second_controller + '.' + mirrored_driver_attribute)
 
-        print 'Mirror SDK completion!!!',
+        print('Mirror SDK completion!!!')
+
     else:
         for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
             for elem_from_list_of_all_attributes in list_of_all_attributes:
                 pm.setDrivenKeyframe(elem_from_text_field_of_list_driven_elems + '.' + elem_from_list_of_all_attributes,
                                      cd=second_controller + '.' + driver_attribute)
 
-        print 'Non mirror drive completion!!!',
+        print('Non mirror drive completion!!!')
