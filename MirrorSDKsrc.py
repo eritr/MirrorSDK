@@ -15,7 +15,7 @@ import sys
 
 
 def MirrorSDKUIExtended():
-    TitleWindow = 'MirrorSDK (Extended by Aleksei S.)'
+    TitleWindow = 'MirrorSDK (Extended by EEGames v.1.0)'
     if pm.window(TitleWindow, q=True, ex=True):
         pm.deleteUI(TitleWindow)
     pm.window(TitleWindow)
@@ -24,14 +24,14 @@ def MirrorSDKUIExtended():
     pm.separator(st=None, h=10)
     pm.text(l=TitleWindow, bgc=(0.1, 0.5, 0.5))
     pm.textFieldGrp('search', l='Search:', tx='_L')
-    pm.radioButtonGrp('selt', nrb=2, l='Type:', la2=(
-        'Translate', 'BlendShape (not work)'), sl=1, en2=False, cc='changeUI')
-    pm.separator(st=None, h=10)
-    pm.text(l='Mark to fix behavior', bgc=(0.1, 0.1, 0.1))
+    # pm.radioButtonGrp('selt', nrb=2, l='Type:', la2=(
+    #     'Translate', 'BlendShape (not work)'), sl=1, en2=False, cc='changeUI')
+    # pm.separator(st=None, h=10)
+    pm.text(l='Отметить для исправления поведения', bgc=(0.1, 0.1, 0.1))
     pm.separator(st=None, h=5)
     pm.checkBoxGrp('checkbox2', ncb=3, l='TranslateAix:', la3=('X', 'Y', 'Z'))
     pm.checkBoxGrp('checkbox3', ncb=3, l='RotateAix:', la3=('X', 'Y', 'Z'))
-    pm.checkBoxGrp('checkbox4', ncb=3, l='ScaleAix:', la3=('X', 'Y', 'Z'))
+
     pm.textFieldButtonGrp('getCtrl1', l='FirstCtrl:',
                           tx='', bl='Get', bc=getCtrl1c)
     pm.textFieldButtonGrp('getCtrl2', l='SecondCtrl:', bl='Get', bc=getCtrl2c)
@@ -41,13 +41,13 @@ def MirrorSDKUIExtended():
                           bl='Get', bc=getCtrlgrp1c)
     pm.floatFieldGrp('getfloat', nf=2, l='ControlValue', v1=0, v2=90)
     pm.separator(st=None, h=10)
-    pm.button('button1', l='After the information is confirmed, click the execution step 1, then adjust the object being driven.', c=SDK1, bgc=(0.0,
-                                                                                                                                                0.3,
-                                                                                                                                                0.1))
+    pm.button('button1', l='После заполнения полей завершите этот шаг нажатием данной кнопки, затем настройте управляемые объекты.', c=SDK1, bgc=(0.0,
+                                                                                                                                                  0.3,
+                                                                                                                                                  0.1))
     pm.separator(st=None, h=10)
-    pm.button('button2', l='Finish step1, click This completes the mirror or non mirror operation', c=SDK2, bgc=(0,
-                                                                                                                 0.4,
-                                                                                                                 0.1))
+    pm.button('button2', l='Кликнуть по завершению настройки управляемых объектов.\n Это завершает зеркальную или не зеркальную операцию.', c=SDK2, bgc=(0,
+                                                                                                                                                         0.4,
+                                                                                                                                                         0.1))
     return
 
 
@@ -83,6 +83,7 @@ def SDK1(*O0OOOOO00O000O0O0):
     text_field_of_list_driven_elems = pm.textFieldButtonGrp(
         'getCtrlgrp1', q=True, tx=True)
     list_driven_elems = text_field_of_list_driven_elems.split(',')
+    # рассмотреть, как добавить тут список управляющих атрибутов
     driver_attribute = pm.textFieldButtonGrp(
         'getAttribute1', q=True, tx=True)
     min_value = pm.floatFieldGrp('getfloat', q=True, v1=True)
@@ -142,12 +143,6 @@ def SDK2(*OO000OOO000OO0000):
             1 if pm.checkBoxGrp('checkbox3', q=True, v2=True) else 1
         exrz = - \
             1 if pm.checkBoxGrp('checkbox3', q=True, v3=True) else 1
-        exsx = - \
-            1 if pm.checkBoxGrp('checkbox4', q=True, v3=True) else 1
-        exsy = - \
-            1 if pm.checkBoxGrp('checkbox4', q=True, v3=True) else 1
-        exsz = - \
-            1 if pm.checkBoxGrp('checkbox4', q=True, v3=True) else 1
 
         pm.setAttr(mirored_first_controller + '.' +
                    mirrored_driver_attribute, min_value)
@@ -177,8 +172,8 @@ def SDK2(*OO000OOO000OO0000):
                        mirrored_first_controller_translate[0], exty * mirrored_first_controller_translate[1], extz * mirrored_first_controller_translate[2]))
             pm.setAttr(mirrored_elem_from_text_field_of_list_driven_elems + '.rotate', (exrx *
                        mirrored_first_controller_rotate[0], exry * mirrored_first_controller_rotate[1], exrz * mirrored_first_controller_rotate[2]))
-            pm.setAttr(mirrored_elem_from_text_field_of_list_driven_elems + '.scale', (exsx *
-                       mirrored_first_controller_scale[0], exsy * mirrored_first_controller_scale[1], exsz * mirrored_first_controller_scale[2]))
+            pm.setAttr(mirrored_elem_from_text_field_of_list_driven_elems + '.scale', (
+                       mirrored_first_controller_scale[0],  mirrored_first_controller_scale[1], mirrored_first_controller_scale[2]))
 
         for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
             mirrored_elem_from_text_field_of_list_driven_elems = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
