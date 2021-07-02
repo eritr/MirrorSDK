@@ -9,6 +9,8 @@
 # MirrorSDK.MirrorSDKUIExtended()
 
 
+# TODO: сделать копирование всех управляемых ключей
+
 import pymel.core as pm
 import maya.cmds as mc
 import sys
@@ -29,17 +31,22 @@ def MirrorSDKUIExtended():
     # pm.separator(st=None, h=10)
     pm.text(l='Отметить для исправления поведения', bgc=(0.1, 0.1, 0.1))
     pm.separator(st=None, h=5)
-    pm.checkBoxGrp('checkbox2', ncb=3, l='TranslateAix:', la3=('X', 'Y', 'Z'))
-    pm.checkBoxGrp('checkbox3', ncb=3, l='RotateAix:', la3=('X', 'Y', 'Z'))
+    pm.checkBoxGrp('checkbox2', ncb=3, l='Ось перемещения:',
+                   la3=('X', 'Y', 'Z'))
+    pm.checkBoxGrp('checkbox3', ncb=3, l='Ось вращения:', la3=('X', 'Y', 'Z'))
 
-    pm.textFieldButtonGrp('getCtrl1', l='FirstCtrl:',
-                          tx='', bl='Get', bc=getCtrl1c)
-    pm.textFieldButtonGrp('getCtrl2', l='SecondCtrl:', bl='Get', bc=getCtrl2c)
+    pm.textFieldButtonGrp('getCtrl1', l='Исходный ктрл (откуда):',
+                          tx='', bl='Получить значение', bc=getCtrl1c)
+    pm.textFieldButtonGrp('getCtrl2', l='Целевой ктрл (куда):',
+                          bl='Получить значение', bc=getCtrl2c)
     pm.textFieldButtonGrp(
-        'getAttribute1', l='ControlAttribute:', bl='Get', bc=getAttribute1c)
-    pm.textFieldButtonGrp('getCtrlgrp1', l='DrivenObj:',
-                          bl='Get', bc=getCtrlgrp1c)
-    pm.floatFieldGrp('getfloat', nf=2, l='ControlValue', v1=0, v2=90)
+        'getAttribute1', l='Атрибут управления:', bl='Получить значение', bc=getAttribute1c)
+    pm.checkBoxGrp('checkbox4', ncb=1, l='Инверт. поведение:',
+                   l1='(изменяет поведение управляющего ключа на противоположное)')
+    pm.textFieldButtonGrp('getCtrlgrp1', l='Управляемые объекты:',
+                          bl='Получить значение', bc=getCtrlgrp1c)
+    pm.floatFieldGrp('getfloat', nf=2, l='Значения для копирования', v1=0, v2=90
+                     )
     pm.separator(st=None, h=10)
     pm.button('button1', l='После заполнения полей завершите этот шаг нажатием данной кнопки, затем настройте управляемые объекты.', c=SDK1, bgc=(0.0,
                                                                                                                                                   0.3,
@@ -83,9 +90,12 @@ def SDK1(*O0OOOOO00O000O0O0):
     text_field_of_list_driven_elems = pm.textFieldButtonGrp(
         'getCtrlgrp1', q=True, tx=True)
     list_driven_elems = text_field_of_list_driven_elems.split(',')
-    # рассмотреть, как добавить тут список управляющих атрибутов
+    # TODO: рассмотреть, как добавить тут список управляющих атрибутов
     driver_attribute = pm.textFieldButtonGrp(
         'getAttribute1', q=True, tx=True)
+    # TODO: сделать кнопку смены поведения второго управляющего объекта
+    driver_attribute_invertation = - \
+        1 if pm.checkBoxGrp('checkbox4', q=True, v1=True) else 1
     min_value = pm.floatFieldGrp('getfloat', q=True, v1=True)
     max_value = pm.floatFieldGrp('getfloat', q=True, v2=True)
     list_of_all_attributes = ['tx', 'ty', 'tz',
@@ -98,6 +108,7 @@ def SDK1(*O0OOOOO00O000O0O0):
         for elem_from_list_of_all_attributes in list_of_all_attributes:
             pm.setDrivenKeyframe(driven_elem + '.' + elem_from_list_of_all_attributes,
                                  cd=second_controller + '.' + driver_attribute)
+            # NOTE: тут можно заменить управляющий атрибут на несколько
 
     pm.setAttr(first_controller + '.' +
                driver_attribute, max_value)
