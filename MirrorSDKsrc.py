@@ -3,25 +3,35 @@
 # Decompiled from: Python 3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]
 # Embedded file name: E:/Documents/maya/2018/scripts\MirrorSDK.py
 # Compiled at: 2018-06-18 08:42:33
+
+# Длязапускаиспользовать
+# import MirrorSDKExtended
+# MirrorSDK.MirrorSDKUIExtended()
+
+
 import pymel.core as pm
 import maya.cmds as mc
 import sys
 
 
-def MirrorSDKUI():
-    OOO0O0O000O0OO0O0 = 'MirrorSDK'
-    if pm.window(OOO0O0O000O0OO0O0, q=True, ex=True):
-        pm.deleteUI(OOO0O0O000O0OO0O0)
-    pm.window(OOO0O0O000O0OO0O0)
+def MirrorSDKUIExtended():
+    TitleWindow = 'MirrorSDK (Extended by EEGames v.1.0)'
+    if pm.window(TitleWindow, q=True, ex=True):
+        pm.deleteUI(TitleWindow)
+    pm.window(TitleWindow)
     pm.showWindow()
     pm.columnLayout(adj=True)
     pm.separator(st=None, h=10)
-    pm.text(l=OOO0O0O000O0OO0O0, bgc=(0.1, 0.5, 0.5))
-    pm.textFieldGrp('search', l='Search:', tx='L_')
-    pm.radioButtonGrp('selt', nrb=2, l='Type:', la2=(
-        'Translate', 'BlendShape'), sl=1, en2=False, cc='changeUI')
+    pm.text(l=TitleWindow, bgc=(0.1, 0.5, 0.5))
+    pm.textFieldGrp('search', l='Search:', tx='_L')
+    # pm.radioButtonGrp('selt', nrb=2, l='Type:', la2=(
+    #     'Translate', 'BlendShape (not work)'), sl=1, en2=False, cc='changeUI')
+    # pm.separator(st=None, h=10)
+    pm.text(l='Отметить для исправления поведения', bgc=(0.1, 0.1, 0.1))
+    pm.separator(st=None, h=5)
     pm.checkBoxGrp('checkbox2', ncb=3, l='TranslateAix:', la3=('X', 'Y', 'Z'))
     pm.checkBoxGrp('checkbox3', ncb=3, l='RotateAix:', la3=('X', 'Y', 'Z'))
+
     pm.textFieldButtonGrp('getCtrl1', l='FirstCtrl:',
                           tx='', bl='Get', bc=getCtrl1c)
     pm.textFieldButtonGrp('getCtrl2', l='SecondCtrl:', bl='Get', bc=getCtrl2c)
@@ -31,125 +41,153 @@ def MirrorSDKUI():
                           bl='Get', bc=getCtrlgrp1c)
     pm.floatFieldGrp('getfloat', nf=2, l='ControlValue', v1=0, v2=90)
     pm.separator(st=None, h=10)
-    pm.button('button1', l='After the information is confirmed, click the execution step 1, then adjust the object being driven.', c=SDK1, bgc=(0.0,
-                                                                                                                                                0.3,
-                                                                                                                                                0.1))
+    pm.button('button1', l='После заполнения полей завершите этот шаг нажатием данной кнопки, затем настройте управляемые объекты.', c=SDK1, bgc=(0.0,
+                                                                                                                                                  0.3,
+                                                                                                                                                  0.1))
     pm.separator(st=None, h=10)
-    pm.button('button2', l='Finish step1, click This completes the mirror or non mirror operation', c=SDK2, bgc=(0,
-                                                                                                                 0.4,
-                                                                                                                 0.1))
+    pm.button('button2', l='Кликнуть по завершению настройки управляемых объектов.\n Это завершает зеркальную или не зеркальную операцию.', c=SDK2, bgc=(0,
+                                                                                                                                                         0.4,
+                                                                                                                                                         0.1))
     return
 
 
 def getCtrl1c():
-    OO0OO00O0O0OO0000 = pm.ls(sl=True)
-    if len(OO0OO00O0O0OO0000) > 1:
+    getCtrl1c_list = pm.ls(sl=True)
+    if len(getCtrl1c_list) > 1:
         pm.error('Only one object can be selected')
-    pm.textFieldButtonGrp('getCtrl1', e=True, tx=OO0OO00O0O0OO0000[0])
+    pm.textFieldButtonGrp('getCtrl1', e=True, tx=getCtrl1c_list[0])
 
 
 def getCtrl2c():
-    O00O00O00O0O00O00 = pm.ls(sl=True)
-    if len(O00O00O00O0O00O00) > 1:
+    getCtrl2c_list = pm.ls(sl=True)
+    if len(getCtrl2c_list) > 1:
         pm.error('Only one object can be selected')
-    pm.textFieldButtonGrp('getCtrl2', e=True, tx=O00O00O00O0O00O00[0])
+    pm.textFieldButtonGrp('getCtrl2', e=True, tx=getCtrl2c_list[0])
 
 
 def getAttribute1c():
-    O0O0OOOO000O000OO = pm.channelBox('mainChannelBox', q=True, sma=True)
-    if len(O0O0OOOO000O000OO) > 1:
+    mainChannelBox = pm.channelBox('mainChannelBox', q=True, sma=True)
+    if len(mainChannelBox) > 1:
         pm.error('Only one attribute can be selected')
-    pm.textFieldButtonGrp('getAttribute1', e=True, tx=O0O0OOOO000O000OO[0])
+    pm.textFieldButtonGrp('getAttribute1', e=True, tx=mainChannelBox[0])
 
 
 def getCtrlgrp1c():
+    # Вот ради списка выделенных элементов тут подгружена библиотека майки? Ужас.
     pm.textFieldButtonGrp('getCtrlgrp1', e=True, tx=(',').join(mc.ls(sl=True)))
 
 
 def SDK1(*O0OOOOO00O000O0O0):
-    O0O0O0OO00OO0OOOO = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    O0000OOO00000O000 = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
-    OO0OO0000OOOOOOOO = pm.textFieldButtonGrp('getCtrlgrp1', q=True, tx=True)
-    OOOO000OOO00O0000 = OO0OO0000OOOOOOOO.split(',')
-    OO0000OO0OO00OOOO = pm.textFieldButtonGrp('getAttribute1', q=True, tx=True)
-    OOOOOOOOO0O0O00O0 = pm.floatFieldGrp('getfloat', q=True, v1=True)
-    O000OOO00OOOOO000 = pm.floatFieldGrp('getfloat', q=True, v2=True)
-    O000O00O0000OO000 = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    OO00O00OO0O0O00O0 = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz']
-    pm.setAttr(O0O0O0OO00OO0OOOO + '.' + OO0000OO0OO00OOOO, OOOOOOOOO0O0O00O0)
-    for OO0000000O0O00O00 in OOOO000OOO00O0000:
-        for OO0000OOOOO000000 in OO00O00OO0O0O00O0:
-            pm.setDrivenKeyframe(OO0000000O0O00O00 + '.' + OO0000OOOOO000000,
-                                 cd=O0000OOO00000O000 + '.' + OO0000OO0OO00OOOO)
+    first_controller = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
+    second_controller = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
+    text_field_of_list_driven_elems = pm.textFieldButtonGrp(
+        'getCtrlgrp1', q=True, tx=True)
+    list_driven_elems = text_field_of_list_driven_elems.split(',')
+    # рассмотреть, как добавить тут список управляющих атрибутов
+    driver_attribute = pm.textFieldButtonGrp(
+        'getAttribute1', q=True, tx=True)
+    min_value = pm.floatFieldGrp('getfloat', q=True, v1=True)
+    max_value = pm.floatFieldGrp('getfloat', q=True, v2=True)
+    list_of_all_attributes = ['tx', 'ty', 'tz',
+                              'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
 
-    pm.setAttr(O0O0O0OO00OO0OOOO + '.' + OO0000OO0OO00OOOO, O000OOO00OOOOO000)
+    pm.setAttr(first_controller + '.' +
+               driver_attribute, min_value)
+
+    for driven_elem in list_driven_elems:
+        for elem_from_list_of_all_attributes in list_of_all_attributes:
+            pm.setDrivenKeyframe(driven_elem + '.' + elem_from_list_of_all_attributes,
+                                 cd=second_controller + '.' + driver_attribute)
+
+    pm.setAttr(first_controller + '.' +
+               driver_attribute, max_value)
 
 
 def SDK2(*OO000OOO000OO0000):
-    O000O000O0O0OOOO0 = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    OOO000O00OOOOO00O = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
-    O000O0OOO0O0OO00O = pm.textFieldButtonGrp('getCtrlgrp1', q=True, tx=True)
-    OOOO0OO000OOOO0O0 = O000O0OOO0O0OO00O.split(',')
-    OOO000O0O000000OO = pm.textFieldButtonGrp('getAttribute1', q=True, tx=True)
-    O00000O00OOOOO000 = pm.floatFieldGrp('getfloat', q=True, v1=True)
-    OOO000O000O0000OO = pm.floatFieldGrp('getfloat', q=True, v2=True)
-    OO0OO0O00O0OO00O0 = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
-    O000OO000000O0000 = ['tx', 'ty', 'tz', 'rx', 'ry', 'rz']
-    O0O0OOOOO0O0O0OOO = pm.textFieldGrp('search', q=True, tx=True)
-    O0OO000O0OOOOOO0O = O0O0OOOOO0O0O0OOO.replace('L', 'R') if ('_L_').find(
-        O0O0OOOOO0O0O0OOO) >= 0 else O0O0OOOOO0O0O0OOO.replace('R', 'L')
-    OOO00O0OOO0O000OO = O000O000O0O0OOOO0.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-        O0O0OOOOO0O0O0OOO) >= 0 else O000O000O0O0OOOO0.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-    O0OO00OOO0OOO0000 = OOO000O00OOOOO00O.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-        O0O0OOOOO0O0O0OOO) >= 0 else OOO000O00OOOOO00O.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-    O0O0O00OOOOOO00O0 = OOO000O0O000000OO.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-        O0O0OOOOO0O0O0OOO) >= 0 else OOO000O0O000000OO.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-    if pm.objExists(OOO00O0OOO0O000OO):
-        O00O0O0OOO0000OO0 = - \
+    first_controller = pm.textFieldButtonGrp('getCtrl1', q=True, tx=True)
+    second_controller = pm.textFieldButtonGrp('getCtrl2', q=True, tx=True)
+    text_field_of_list_driven_elems = pm.textFieldButtonGrp(
+        'getCtrlgrp1', q=True, tx=True)
+    text_field_of_list_driven_elems = text_field_of_list_driven_elems.split(
+        ',')
+    driver_attribute = pm.textFieldButtonGrp(
+        'getAttribute1', q=True, tx=True)
+    min_value = pm.floatFieldGrp('getfloat', q=True, v1=True)
+    max_value = pm.floatFieldGrp('getfloat', q=True, v2=True)
+    list_of_all_attributes = ['tx', 'ty', 'tz',
+                              'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
+    text_from_search_field = pm.textFieldGrp('search', q=True, tx=True)
+
+    l2r_or_r2l_replacer = text_from_search_field.replace('L', 'R') if ('_L_').find(
+        text_from_search_field) >= 0 else text_from_search_field.replace('R', 'L')
+
+    mirored_first_controller = first_controller.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+        text_from_search_field) >= 0 else first_controller.replace(l2r_or_r2l_replacer, text_from_search_field)
+
+    mirrored_second_controller = second_controller.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+        text_from_search_field) >= 0 else second_controller.replace(l2r_or_r2l_replacer, text_from_search_field)
+
+    mirrored_driver_attribute = driver_attribute.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+        text_from_search_field) >= 0 else driver_attribute.replace(l2r_or_r2l_replacer, text_from_search_field)
+
+    if pm.objExists(mirored_first_controller):
+        extx = - \
             1 if pm.checkBoxGrp('checkbox2', q=True, v1=True) else 1
-        O00O0OOOOOOO0OOO0 = - \
+        exty = - \
             1 if pm.checkBoxGrp('checkbox2', q=True, v2=True) else 1
-        O0O0000O00OO0OOO0 = - \
+        extz = - \
             1 if pm.checkBoxGrp('checkbox2', q=True, v3=True) else 1
-        OO000O0O0O00OOOOO = - \
+        exrx = - \
             1 if pm.checkBoxGrp('checkbox3', q=True, v1=True) else 1
-        O000OO0OOOO0OO0O0 = - \
+        exry = - \
             1 if pm.checkBoxGrp('checkbox3', q=True, v2=True) else 1
-        O000OO0000OOOOOOO = - \
+        exrz = - \
             1 if pm.checkBoxGrp('checkbox3', q=True, v3=True) else 1
-        pm.setAttr(OOO00O0OOO0O000OO + '.' +
-                   O0O0O00OOOOOO00O0, O00000O00OOOOO000)
-        for O000O0O0O00O0O0OO in OOOO0OO000OOOO0O0:
-            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-                O0O0OOOOO0O0O0OOO) >= 0 else O000O0O0O00O0O0OO.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-            for O00O0O000OO000O00 in O000OO000000O0000:
-                pm.setDrivenKeyframe(O00OO0000OO00OOO0 + '.' + O00O0O000OO000O00,
-                                     cd=O0OO00OOO0OOO0000 + '.' + O0O0O00OOOOOO00O0)
 
-        pm.setAttr(OOO00O0OOO0O000OO + '.' +
-                   O0O0O00OOOOOO00O0, OOO000O000O0000OO)
-        for O000O0O0O00O0O0OO in OOOO0OO000OOOO0O0:
-            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-                O0O0OOOOO0O0O0OOO) >= 0 else O000O0O0O00O0O0OO.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-            OOO0OOO0OO0O00000 = pm.getAttr(O000O0O0O00O0O0OO + '.translate')
-            OOO0OOO0OOOO0OOO0 = pm.getAttr(O000O0O0O00O0O0OO + '.rotate')
-            pm.setAttr(O00OO0000OO00OOO0 + '.translate', (O00O0O0OOO0000OO0 *
-                       OOO0OOO0OO0O00000[0], O00O0OOOOOOO0OOO0 * OOO0OOO0OO0O00000[1], O0O0000O00OO0OOO0 * OOO0OOO0OO0O00000[2]))
-            pm.setAttr(O00OO0000OO00OOO0 + '.rotate', (OO000O0O0O00OOOOO *
-                       OOO0OOO0OOOO0OOO0[0], O000OO0OOOO0OO0O0 * OOO0OOO0OOOO0OOO0[1], O000OO0000OOOOOOO * OOO0OOO0OOOO0OOO0[2]))
+        pm.setAttr(mirored_first_controller + '.' +
+                   mirrored_driver_attribute, min_value)
 
-        for O000O0O0O00O0O0OO in OOOO0OO000OOOO0O0:
-            O00OO0000OO00OOO0 = O000O0O0O00O0O0OO.replace(O0O0OOOOO0O0O0OOO, O0OO000O0OOOOOO0O) if O000O000O0O0OOOO0.find(
-                O0O0OOOOO0O0O0OOO) >= 0 else O000O0O0O00O0O0OO.replace(O0OO000O0OOOOOO0O, O0O0OOOOO0O0O0OOO)
-            for O00O0O000OO000O00 in O000OO000000O0000:
-                pm.setDrivenKeyframe(O00OO0000OO00OOO0 + '.' + O00O0O000OO000O00,
-                                     cd=O0OO00OOO0OOO0000 + '.' + O0O0O00OOOOOO00O0)
+        for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
+            mirrored_elem_from_text_field_of_list_driven_elems = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+                text_from_search_field) >= 0 else elem_from_text_field_of_list_driven_elems.replace(l2r_or_r2l_replacer, text_from_search_field)
+            for elem_from_list_of_all_attributes in list_of_all_attributes:
+                pm.setDrivenKeyframe(mirrored_elem_from_text_field_of_list_driven_elems + '.' + elem_from_list_of_all_attributes,
+                                     cd=mirrored_second_controller + '.' + mirrored_driver_attribute)
 
-        print 'Mirror SDK completion!!!',
+        pm.setAttr(mirored_first_controller + '.' +
+                   mirrored_driver_attribute, max_value)
+
+        for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
+            mirrored_elem_from_text_field_of_list_driven_elems = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+                text_from_search_field) >= 0 else elem_from_text_field_of_list_driven_elems.replace(l2r_or_r2l_replacer, text_from_search_field)
+
+            mirrored_first_controller_translate = pm.getAttr(
+                elem_from_text_field_of_list_driven_elems + '.translate')
+            mirrored_first_controller_rotate = pm.getAttr(
+                elem_from_text_field_of_list_driven_elems + '.rotate')
+            mirrored_first_controller_scale = pm.getAttr(
+                elem_from_text_field_of_list_driven_elems + '.scale')
+
+            pm.setAttr(mirrored_elem_from_text_field_of_list_driven_elems + '.translate', (extx *
+                       mirrored_first_controller_translate[0], exty * mirrored_first_controller_translate[1], extz * mirrored_first_controller_translate[2]))
+            pm.setAttr(mirrored_elem_from_text_field_of_list_driven_elems + '.rotate', (exrx *
+                       mirrored_first_controller_rotate[0], exry * mirrored_first_controller_rotate[1], exrz * mirrored_first_controller_rotate[2]))
+            pm.setAttr(mirrored_elem_from_text_field_of_list_driven_elems + '.scale', (
+                       mirrored_first_controller_scale[0],  mirrored_first_controller_scale[1], mirrored_first_controller_scale[2]))
+
+        for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
+            mirrored_elem_from_text_field_of_list_driven_elems = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
+                text_from_search_field) >= 0 else elem_from_text_field_of_list_driven_elems.replace(l2r_or_r2l_replacer, text_from_search_field)
+            for elem_from_list_of_all_attributes in list_of_all_attributes:
+                pm.setDrivenKeyframe(mirrored_elem_from_text_field_of_list_driven_elems + '.' + elem_from_list_of_all_attributes,
+                                     cd=mirrored_second_controller + '.' + mirrored_driver_attribute)
+
+        print('Mirror SDK completion!!!')
+
     else:
-        for O000O0O0O00O0O0OO in OOOO0OO000OOOO0O0:
-            for O00O0O000OO000O00 in O000OO000000O0000:
-                pm.setDrivenKeyframe(O000O0O0O00O0O0OO + '.' + O00O0O000OO000O00,
-                                     cd=OOO000O00OOOOO00O + '.' + OOO000O0O000000OO)
+        for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
+            for elem_from_list_of_all_attributes in list_of_all_attributes:
+                pm.setDrivenKeyframe(elem_from_text_field_of_list_driven_elems + '.' + elem_from_list_of_all_attributes,
+                                     cd=second_controller + '.' + driver_attribute)
 
-        print 'Non mirror drive completion!!!',
+        print('Non mirror drive completion!!!')
