@@ -35,9 +35,9 @@ def MirrorSDKUIExtended():
                    la3=('X', 'Y', 'Z'))
     pm.checkBoxGrp('checkbox3', ncb=3, l='Ось вращения:', la3=('X', 'Y', 'Z'))
 
-    pm.textFieldButtonGrp('getCtrl1', l='Исходный ктрл (откуда):',
+    pm.textFieldButtonGrp('getCtrl1', l='Исходный контроллер:',
                           tx='', bl='Получить значение', bc=getCtrl1c)
-    pm.textFieldButtonGrp('getCtrl2', l='Целевой ктрл (куда):',
+    pm.textFieldButtonGrp('getCtrl2', l='Целевой контроллер:',
                           bl='Получить значение', bc=getCtrl2c)
     pm.textFieldButtonGrp(
         'getAttribute1', l='Атрибут управления:', bl='Получить значение', bc=getAttribute1c)
@@ -90,6 +90,7 @@ def SDK1(*O0OOOOO00O000O0O0):
     text_field_of_list_driven_elems = pm.textFieldButtonGrp(
         'getCtrlgrp1', q=True, tx=True)
     list_driven_elems = text_field_of_list_driven_elems.split(',')
+
     # TODO: рассмотреть, как добавить тут список управляющих атрибутов
     driver_attribute = pm.textFieldButtonGrp(
         'getAttribute1', q=True, tx=True)
@@ -102,7 +103,7 @@ def SDK1(*O0OOOOO00O000O0O0):
                               'rx', 'ry', 'rz', 'sx', 'sy', 'sz']
 
     pm.setAttr(first_controller + '.' +
-               driver_attribute, min_value)
+               driver_attribute, min_value*driver_attribute_invertation)
 
     for driven_elem in list_driven_elems:
         for elem_from_list_of_all_attributes in list_of_all_attributes:
@@ -111,7 +112,7 @@ def SDK1(*O0OOOOO00O000O0O0):
             # NOTE: тут можно заменить управляющий атрибут на несколько
 
     pm.setAttr(first_controller + '.' +
-               driver_attribute, max_value)
+               driver_attribute, max_value*driver_attribute_invertation)
 
 
 def SDK2(*OO000OOO000OO0000):
@@ -123,6 +124,8 @@ def SDK2(*OO000OOO000OO0000):
         ',')
     driver_attribute = pm.textFieldButtonGrp(
         'getAttribute1', q=True, tx=True)
+    driver_attribute_invertation = - \
+        1 if pm.checkBoxGrp('checkbox4', q=True, v1=True) else 1
     min_value = pm.floatFieldGrp('getfloat', q=True, v1=True)
     max_value = pm.floatFieldGrp('getfloat', q=True, v2=True)
     list_of_all_attributes = ['tx', 'ty', 'tz',
@@ -142,21 +145,15 @@ def SDK2(*OO000OOO000OO0000):
         text_from_search_field) >= 0 else driver_attribute.replace(l2r_or_r2l_replacer, text_from_search_field)
 
     if pm.objExists(mirored_first_controller):
-        extx = - \
-            1 if pm.checkBoxGrp('checkbox2', q=True, v1=True) else 1
-        exty = - \
-            1 if pm.checkBoxGrp('checkbox2', q=True, v2=True) else 1
-        extz = - \
-            1 if pm.checkBoxGrp('checkbox2', q=True, v3=True) else 1
-        exrx = - \
-            1 if pm.checkBoxGrp('checkbox3', q=True, v1=True) else 1
-        exry = - \
-            1 if pm.checkBoxGrp('checkbox3', q=True, v2=True) else 1
-        exrz = - \
-            1 if pm.checkBoxGrp('checkbox3', q=True, v3=True) else 1
+        extx = -1 if pm.checkBoxGrp('checkbox2', q=True, v1=True) else 1
+        exty = -1 if pm.checkBoxGrp('checkbox2', q=True, v2=True) else 1
+        extz = -1 if pm.checkBoxGrp('checkbox2', q=True, v3=True) else 1
+        exrx = -1 if pm.checkBoxGrp('checkbox3', q=True, v1=True) else 1
+        exry = -1 if pm.checkBoxGrp('checkbox3', q=True, v2=True) else 1
+        exrz = -1 if pm.checkBoxGrp('checkbox3', q=True, v3=True) else 1
 
         pm.setAttr(mirored_first_controller + '.' +
-                   mirrored_driver_attribute, min_value)
+                   mirrored_driver_attribute, min_value*driver_attribute_invertation)
 
         for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
             mirrored_elem_from_text_field_of_list_driven_elems = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
@@ -166,7 +163,7 @@ def SDK2(*OO000OOO000OO0000):
                                      cd=mirrored_second_controller + '.' + mirrored_driver_attribute)
 
         pm.setAttr(mirored_first_controller + '.' +
-                   mirrored_driver_attribute, max_value)
+                   mirrored_driver_attribute, max_value*driver_attribute_invertation)
 
         for elem_from_text_field_of_list_driven_elems in text_field_of_list_driven_elems:
             mirrored_elem_from_text_field_of_list_driven_elems = elem_from_text_field_of_list_driven_elems.replace(text_from_search_field, l2r_or_r2l_replacer) if first_controller.find(
