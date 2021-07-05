@@ -31,7 +31,7 @@ RETURNS: The Set Driven Keys command string.
 		for ($driven in $drivens) {
 			
 			//Append to the command string
-			$command += ("\n//Set Driven Keys for " + $driven);
+			// $command += ("\n//Set Driven Keys for " + $driven);
 			
 			//Get the driver values
 			float $driverValues[] = `keyframe -q -floatChange $driven`;
@@ -63,27 +63,6 @@ RETURNS: The Set Driven Keys command string.
 		}
 
 	}
-	
-	//Append to the command string
-	$command +=  "\n//END EXPORT SET DRIVEN KEYS\n\n";
-	
-	//Search and Replace
-	while (`match $search $command` != "") {
-		$command = `substitute $search $command $replace`;
-	}
-	
-	//Output command string to the script editor
-	print $command;
-	
-	//If shelf button is on
-	if ($shelfButton == 1) textToShelf "SDK" $command;
-	
-	//Confirmation
-	print "Set Driven Keys exported successfully! Open Script Editor for details...";
-	
-	//Return the command string
-	return $command;
-	
-} //End of oaExportSDKExport
+}
 
 
