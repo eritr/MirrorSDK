@@ -1,0 +1,54 @@
+/*///////////////////////////////////////////////////////////////////////////////////////
+
+<NAME> oaExportSDK.mel </NAME>
+<VERSION> v1.0 </VERSION>
+<AUTHORS> Oleg Alexander (olegalexander@gmail.com) </AUTHORS>
+
+<DESCRIPTION>
+
+This script exports the Set Driven Key commands of all selected objects
+to the Script Editor. The output looks like this:
+
+//START EXPORT SET DRIVEN KEYS
+
+//Set Driven Keys for leftEyeJoint.rotateX
+catch(`setAttr leftEyeControl.translateY -1`);
+catch(`setAttr leftEyeJoint.rotateX 45`);
+catch(`setDrivenKeyframe -itt linear -ott linear -cd leftEyeControl.translateY leftEyeJoint.rotateX`);
+catch(`setInfinity -pri constant -poi constant leftEyeJoint.rotateX`);
+
+catch(`setAttr leftEyeControl.translateY 0`);
+catch(`setAttr leftEyeJoint.rotateX 0`);
+catch(`setDrivenKeyframe -itt linear -ott linear -cd leftEyeControl.translateY leftEyeJoint.rotateX`);
+catch(`setInfinity -pri constant -poi constant leftEyeJoint.rotateX`);
+
+catch(`setAttr leftEyeControl.translateY 1`);
+catch(`setAttr leftEyeJoint.rotateX -45`);
+catch(`setDrivenKeyframe -itt linear -ott linear -cd leftEyeControl.translateY leftEyeJoint.rotateX`);
+catch(`setInfinity -pri constant -poi constant leftEyeJoint.rotateX`);
+
+//END EXPORT SET DRIVEN KEYS
+
+
+Could be used to mirror Set Driven Keys
+when used with the Search and Replace feature (i.e. Search for "left",
+Replace with "right"). </DESCRIPTION>
+
+<TO_USE>
+
+Copy all the mel scripts in this zip into your scripts directory and restart Maya.
+Execute 'oaExportSDK' to bring up the UI.
+Select some driven objects, set the options, and press 'Export Set Driven Key Commands'. </TO_USE>
+
+<HISTORY>
+
+	v1.0 (December 9, 2005)
+		o Original Release </HISTORY>
+
+<RELATED_SCRIPT></RELATED_SCRIPT>
+
+<OTHER></OTHER>
+
+IF YOU ENJOY THIS MEL SCRIPT, PLEASE RATE IT. I WOULD APPRECIATE IT. THANK YOU!
+
+///////////////////////////////////////////////////////////////////////////////////////*/
