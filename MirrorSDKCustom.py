@@ -87,16 +87,21 @@ def SDK3(*args):
             # READING...
             mirrored_driven = driven.replace(text_from_search_field, l2r_or_r2l_replacer) if driven.find(
                 text_from_search_field) >= 0 else driven.replace(l2r_or_r2l_replacer, text_from_search_field)
-
+            print('*** NEW DRIVEN ***')
             # Get the driver values
             driverValues = pm.keyframe(driven, q=True, floatChange=True)
+            print("driverValues", driverValues)
             # Get the driven values
             drivenValues = pm.keyframe(driven, q=True, valueChange=True)
+            print("drivenValues", drivenValues)
             # Get the in tangents and out tangents
             inTangents = pm.keyTangent(driven, q=True, itt=True)
+            print("inTangents", inTangents)
             outTangents = pm.keyTangent(driven, q=True, ott=True)
+            print("outTangents", outTangents)
             # Get pre and post infinity types for this attribute
             infinity = pm.setInfinity(driven, q=True, pri=True, poi=True)
+            print("infinity", infinity)
 
             # WRITTING...
             # For every driven value...
