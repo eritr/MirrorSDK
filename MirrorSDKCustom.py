@@ -30,9 +30,9 @@ def MirrorSDKUICustom():
     pm.separator(st=None, h=5)
     pm.text(l="Fix controller's behavior (change sign)",
             bgc=(0.1, 0.1, 0.1))
-    pm.checkBoxGrp('checkbox5', ncb=3, l='Translate Axis:',
+    pm.checkBoxGrp('checkbox4', ncb=3, l='Translate Axis:',
                    la3=('X', 'Y', 'Z'))
-    pm.checkBoxGrp('checkbox4', ncb=3, l='Rotate Axis:',
+    pm.checkBoxGrp('checkbox5', ncb=3, l='Rotate Axis:',
                    la3=('X', 'Y', 'Z'))
     pm.text(l="Fix driven objects' behavior (change sign)",
             bgc=(0.1, 0.1, 0.1))
@@ -110,8 +110,8 @@ def SDK3(*args):
                 mirrored_driver = driverList[0].replace(text_from_search_field, l2r_or_r2l_replacer) if driverList[0].find(
                     text_from_search_field) >= 0 else driverList[0].replace(l2r_or_r2l_replacer, text_from_search_field)
 
-                tmp = mirrored_driver.split('.')
-                attr = tmp[len(tmp) - 1]
+                tmpDR = mirrored_driver.split('.')
+                attr = tmpDR[len(tmpDR) - 1]
                 mirDR = 1
 
                 if attr == 'translateX':
@@ -144,10 +144,12 @@ def SDK3(*args):
                         1 if pm.checkBoxGrp(
                             'checkbox5', q=True, v3=True) else 1
 
+                print("mirrored_driver", mirrored_driver)
+                print("mirDR", mirDR)
                 pm.setAttr(mirrored_driver, driverValues[i]*mirDR)
 
-                tmp = mirrored_driven.split('.')
-                attr = tmp[len(tmp) - 1]
+                tmpDN = mirrored_driven.split('.')
+                attr = tmpDN[len(tmpDN) - 1]
                 mirDN = 1
 
                 if attr == 'translateX':
