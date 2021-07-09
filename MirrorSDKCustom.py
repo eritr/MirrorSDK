@@ -103,6 +103,13 @@ def SDK3(*args):
             infinity = pm.setInfinity(driven, q=True, pri=True, poi=True)
             print("infinity", infinity)
 
+            for i in range(len(inTangents)):
+                if inTangents[i] == 'fixed':
+                    inTangents[i] = 'auto'
+            for i in range(len(outTangents)):
+                if outTangents[i] == 'fixed':
+                    outTangents[i] = 'auto'
+
             # WRITTING...
             # For every driven value...
             for i in range(len(drivenValues)):
