@@ -45,7 +45,7 @@ def MirrorSDKUICustom():
     pm.separator(st=None, h=5)
     pm.button('button1', l='* Magic Button *', c=SDK3, bgc=(0.0, 0.3, 0.1))
     pm.separator(st=None, h=10)
-    pm.text(l="Aleksei Sablin's modification, 2021/07/05",
+    pm.text(l="Aleksei Sablin's modification, 2021/07/08",
             nbg=True)
     return
 
